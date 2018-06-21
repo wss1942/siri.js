@@ -6,23 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Document</title>
-	<link href="styles/normalize.css" rel="stylesheet" type="text/css">
-	<link href="styles/app.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
 	<div id="siri-container"></div>
 	<div class="wrapper">
 		<audio id="audio" src="./audio/concert-crowd.mp3" controls></audio>
-		<!-- <audio id="audio" src="./scripts/忘记拥抱.aac" controls></audio> -->
-		<canvas class="visualizer" width="640" height="100"></canvas>
-		<button onclick="addCurve()">生成一个曲线</button>
-		<button onclick="draw()">绘制</button>
-		<button onclick="clearabc()">clear</button>
+		<canvas class="visualizer" width="640" height="100" style="border:1px solid red"></canvas>
 	</div>
-	<script src="./siriwavejs/lodash.min.js"></script>
-	<script src="./siriwavejs/siri.js"></script>
-	<script src="./siriwavejs/siriCurve.js"></script>
+	<script src="./wave.js"></script>
 	<script src="./app.js"></script>
 </body>
 
