@@ -50,16 +50,36 @@ var drawAlt = function () {
 	}
 };
 
-audioData.onplay = function () {
-	analyser.getByteFrequencyData(dataArrayAlt);
-	siriWave = new SiriWave({
-		container: con,
-		width: 640,
-		height: 200
-	});
-	siriWave.start(dataArrayAlt);
-	// drawAlt();
+// audioData.onplay = function () {
+// 	analyser.getByteFrequencyData(dataArrayAlt);
+// 	siriWave = new SiriWave({
+// 		container: con,
+// 		width: 640,
+// 		height: 200
+// 	});
+// 	siriWave.start(dataArrayAlt);
+// 	// drawAlt();
+// }
+// audioData.onpause = function () {
+// 	siriWave.stop();
+// }
+var siri = new Siri({
+	container: con,
+	width: 640,
+	height: 200
+});
+function addCurve() {
+	siri.genWaveCurve();
 }
-audioData.onpause = function () {
-	siriWave.stop();
+
+var animationID;
+function draw() {
+	siri._clear()
+	siri._draw()
+	animationID = window.requestAnimationFrame(draw)
+}
+
+function clearabc() {
+	// siri._clear()
+	window.cancelAnimationFrame(animationID)
 }
