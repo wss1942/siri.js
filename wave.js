@@ -14,7 +14,6 @@ function SiriWave9Curve(opt) {
 SiriWave9Curve.prototype.respawn = function () {
 	var amplitude = window.frequencyData.shift() / 256 || 0;
 	this.amplitude = 0.3 + amplitude * 0.7;
-	// this.amplitude = 0.3 + Math.random() * 0.7;
 	this.seed = Math.random();
 	this.open_class = 2 + (Math.random() * 3) | 0;
 };
