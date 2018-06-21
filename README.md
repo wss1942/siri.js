@@ -1,2 +1,2 @@
 # siri.js
-wave run with Audio analyser which from audio file.
+Waves run according to the audio analyzer which is from audio file.
