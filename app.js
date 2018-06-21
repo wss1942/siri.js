@@ -18,7 +18,7 @@ source.connect(analyser);
 analyser.connect(audioCtx.destination);
 
 // analyser.fftSize = 256;一次返回的频率数据的个数
-analyser.fftSize = 32;
+analyser.fftSize = 256;
 // 固定为 AnalyserNode 接口中fftSize值的一半. 该属性通常用于可视化的数据值的数量.
 var bufferLengthAlt = analyser.frequencyBinCount;
 var dataArrayAlt = new Uint8Array(bufferLengthAlt);
@@ -27,15 +27,12 @@ WIDTH = canvas.width;
 HEIGHT = canvas.height;
 canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
 
-var siriWave;
-var con = document.getElementById('siri-container');
+var drawVisual;
 var drawAlt = function () {
 	// 动画帧，类似于setTimeout
 	drawVisual = requestAnimationFrame(drawAlt);
 	// 将当前频率数据复制到传入的Uint8Array（无符号字节数组）中
 	analyser.getByteFrequencyData(dataArrayAlt);
-
-	siriWave.arr = dataArrayAlt;
 
 	canvasCtx.fillStyle = 'rgb(0, 0, 0)';
 	canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
@@ -50,16 +47,43 @@ var drawAlt = function () {
 	}
 };
 
+window.frequencyData = [];
+window.addFrequencyData = function (dataArrayAlt) {
+	var a = [1, 3, 5, 8, 13, 21, 34];
+	var b = [];
+	a.map(function (ii) {
+		b.push(dataArrayAlt[ii]);
+	})
+
+	window.frequencyData.push(...b);
+	console.log(b, window.frequencyData.length);
+}
+var SW9;
+function draw() {
+	drawVisual = requestAnimationFrame(draw);
+	analyser.getByteFrequencyData(dataArrayAlt);
+	window.addFrequencyData(dataArrayAlt);
+	if(window.frequencyData.length===0){
+		console.warn(-1)
+		SW9.stop();
+		cancelAnimationFrame(drawVisual);
+	}
+}
+
 audioData.onplay = function () {
 	analyser.getByteFrequencyData(dataArrayAlt);
-	siriWave = new SiriWave({
-		container: con,
-		width: 640,
-		height: 200
+	window.addFrequencyData(dataArrayAlt);
+	SW9 = new SiriWave9({
+		width: 259,
+		height: 40,
+		speed: 0.2,
+		amplitude: 0.5,
+		container: document.body,
+		autostart: true,
 	});
-	siriWave.start(dataArrayAlt);
-	// drawAlt();
+	draw();
 }
 audioData.onpause = function () {
-	siriWave.stop();
+	SW9.stop();
+	cancelAnimationFrame(drawVisual);
 }
